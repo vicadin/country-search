@@ -1,4 +1,4 @@
-import type { Country, RawCountry, RawCurrency } from '../types/country.ts';
+import type { Country, RawCountry, RawCurrency } from '../src/types/country.ts';
 
 const EMPTY_PLACEHOLDER = '—';
 
