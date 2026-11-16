@@ -57,7 +57,7 @@ export function classifySearchError(error: unknown): SearchErrorClassification {
     return {
       kind: 'timeout',
       shouldNotifyUser: true,
-      message: 'Превышено время ожидания ответа от сервера. Попробуйте ещё раз.',
+      message: 'Request timed out. Please try again.',
     };
   }
 
@@ -74,13 +74,13 @@ export function classifySearchError(error: unknown): SearchErrorClassification {
       kind: 'http',
       status: error.status,
       shouldNotifyUser: true,
-      message: `Сервер вернул ошибку (${error.status}). Попробуйте повторить запрос.`,
+      message: `Server returned an error (${error.status}). Please try again.`,
     };
   }
 
   return {
     kind: 'network',
     shouldNotifyUser: true,
-    message: 'Не удалось выполнить запрос. Проверьте подключение к сети и попробуйте снова.',
+    message: 'Failed to complete the request. Check your network connection and try again.',
   };
 }

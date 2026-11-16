@@ -11,11 +11,11 @@ const ALERT_ICON_PATHS = [
 ];
 
 function formatPopulation(population: number): string {
-  return population.toLocaleString('ru-RU');
+  return population.toLocaleString('en-US');
 }
 
 function formatArea(area: number | null): string {
-  return area !== null ? `${area.toLocaleString('ru-RU')} км²` : '—';
+  return area !== null ? `${area.toLocaleString('en-US')} km²` : '—';
 }
 
 function createFlagMedia(country: Country, className: string): HTMLElement {
@@ -26,7 +26,7 @@ function createFlagMedia(country: Country, className: string): HTMLElement {
       className: 'flag-image',
       attrs: {
         src: country.flag,
-        alt: `Флаг: ${country.name}`,
+        alt: `Flag of ${country.name}`,
         loading: 'lazy',
         referrerpolicy: 'no-referrer',
       },
@@ -62,7 +62,7 @@ function createCountryCard(country: Country, onSelect: (id: string) => void): HT
     className: 'country-card',
     attrs: {
       type: 'button',
-      'aria-label': `Открыть информацию о стране ${country.name}`,
+      'aria-label': `Open details for ${country.name}`,
     },
     children: [
       createFlagMedia(country, 'card-flag'),
@@ -82,14 +82,14 @@ function createCountryCard(country: Country, onSelect: (id: string) => void): HT
               el('div', {
                 className: 'fact-row',
                 children: [
-                  el('dt', { className: 'fact-label', text: 'Столица' }),
+                  el('dt', { className: 'fact-label', text: 'Capital' }),
                   el('dd', { className: 'fact-value', text: country.capital }),
                 ],
               }),
               el('div', {
                 className: 'fact-row',
                 children: [
-                  el('dt', { className: 'fact-label', text: 'Население' }),
+                  el('dt', { className: 'fact-label', text: 'Population' }),
                   el('dd', {
                     className: 'fact-value fact-numeric',
                     text: formatPopulation(country.population),
@@ -134,7 +134,7 @@ function createDetailModal(country: Country, onClose: () => void): HTMLDivElemen
     className: 'modal-close',
     attrs: {
       type: 'button',
-      'aria-label': 'Закрыть детальную информацию',
+      'aria-label': 'Close country details',
     },
     children: [createSvgIcon(CLOSE_ICON_PATHS, 'icon-sm')],
   });
@@ -142,8 +142,7 @@ function createDetailModal(country: Country, onClose: () => void): HTMLDivElemen
 
   const languagesText = country.languages.length > 0 ? country.languages.join(', ') : '—';
   const currenciesText = country.currencies.length > 0 ? country.currencies.join(', ') : '—';
-  const bordersText =
-    country.borders.length > 0 ? country.borders.join(', ') : 'Нет сухопутных границ';
+  const bordersText = country.borders.length > 0 ? country.borders.join(', ') : 'No land borders';
 
   const dialog = el('div', {
     className: 'modal-panel',
@@ -176,12 +175,12 @@ function createDetailModal(country: Country, onClose: () => void): HTMLDivElemen
       el('dl', {
         className: 'detail-grid',
         children: [
-          createDetailRow('Столица', country.capital),
-          createDetailRow('Население', formatPopulation(country.population), true),
-          createDetailRow('Площадь', formatArea(country.area), true),
-          createDetailRow('Границы', bordersText),
-          createDetailRow('Языки', languagesText),
-          createDetailRow('Валюта', currenciesText),
+          createDetailRow('Capital', country.capital),
+          createDetailRow('Population', formatPopulation(country.population), true),
+          createDetailRow('Area', formatArea(country.area), true),
+          createDetailRow('Borders', bordersText),
+          createDetailRow('Languages', languagesText),
+          createDetailRow('Currency', currenciesText),
         ],
       }),
     ],
@@ -210,7 +209,7 @@ export function mountCountrySearchApp(root: HTMLElement): () => void {
     attrs: {
       id: 'country-search-input',
       type: 'text',
-      placeholder: 'Например: Spain, Japan, Brazil…',
+      placeholder: 'e.g. Spain, Japan, Brazil…',
       autocomplete: 'off',
       spellcheck: 'false',
     },
@@ -218,11 +217,11 @@ export function mountCountrySearchApp(root: HTMLElement): () => void {
 
   const clearButton = el('button', {
     className: 'clear-button',
-    text: 'Очистить',
+    text: 'Clear',
     attrs: {
       type: 'button',
       hidden: 'true',
-      'aria-label': 'Очистить поиск',
+      'aria-label': 'Clear search',
     },
   });
 
@@ -232,7 +231,7 @@ export function mountCountrySearchApp(root: HTMLElement): () => void {
     children: [
       el('label', {
         className: 'sr-only',
-        text: 'Поиск страны по названию',
+        text: 'Search country by name',
         attrs: { for: 'country-search-input' },
       }),
       el('div', {
@@ -255,10 +254,10 @@ export function mountCountrySearchApp(root: HTMLElement): () => void {
       el('header', {
         className: 'app-header',
         children: [
-          el('h1', { className: 'app-title', text: 'Поиск стран' }),
+          el('h1', { className: 'app-title', text: 'Country Search' }),
           el('p', {
             className: 'app-lead',
-            text: 'Живой поиск по справочнику стран мира: столица, население, языки, границы и валюта.',
+            text: 'Live country directory search: capital, population, languages, borders, and currency.',
           }),
         ],
       }),
@@ -281,11 +280,11 @@ export function mountCountrySearchApp(root: HTMLElement): () => void {
           children: [
             el('p', {
               className: 'state-title',
-              text: 'Начните ввод названия страны',
+              text: 'Start typing a country name',
             }),
             el('p', {
               className: 'state-description',
-              text: 'Введите название на английском языке — результаты появятся автоматически.',
+              text: 'Enter a country name — matching results will appear automatically.',
             }),
           ],
         })
@@ -297,7 +296,7 @@ export function mountCountrySearchApp(root: HTMLElement): () => void {
           attrs: { role: 'status' },
           children: [
             el('span', { className: 'spinner', attrs: { 'aria-hidden': 'true' } }),
-            el('span', { className: 'state-title', text: 'Загрузка стран…' }),
+            el('span', { className: 'state-title', text: 'Searching countries…' }),
           ],
         })
       );
@@ -306,10 +305,10 @@ export function mountCountrySearchApp(root: HTMLElement): () => void {
         el('div', {
           className: 'state-panel state-empty',
           children: [
-            el('p', { className: 'state-title', text: 'Ничего не найдено' }),
+            el('p', { className: 'state-title', text: 'No countries found' }),
             el('p', {
               className: 'state-description',
-              text: `По запросу «${state.lastSubmittedQuery}» совпадений нет. Попробуйте другое название на английском.`,
+              text: `No matches for "${state.lastSubmittedQuery}". Try another country name.`,
             }),
           ],
         })
@@ -317,7 +316,7 @@ export function mountCountrySearchApp(root: HTMLElement): () => void {
     } else if (state.status === 'error') {
       const retryButton = el('button', {
         className: 'retry-button',
-        text: 'Повторить',
+        text: 'Retry',
         attrs: { type: 'button' },
       });
       retryButton.addEventListener('click', () => {
@@ -333,12 +332,13 @@ export function mountCountrySearchApp(root: HTMLElement): () => void {
               className: 'error-header',
               children: [
                 createSvgIcon(ALERT_ICON_PATHS, 'icon-error'),
-                el('p', { className: 'state-title', text: 'Не удалось загрузить данные' }),
+                el('p', { className: 'state-title', text: 'Unable to load countries' }),
               ],
             }),
             el('p', {
               className: 'state-description',
-              text: state.errorMessage ?? 'Произошла ошибка при обращении к серверу.',
+              text:
+                state.errorMessage ?? 'An unexpected error occurred while contacting the server.',
             }),
             retryButton,
           ],
@@ -347,7 +347,7 @@ export function mountCountrySearchApp(root: HTMLElement): () => void {
     } else {
       const summary = el('p', {
         className: 'results-summary',
-        text: `Найдено стран: ${state.countries.length}`,
+        text: `Countries found: ${state.countries.length}`,
       });
 
       const grid = el('div', { className: 'country-grid' });
